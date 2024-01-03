@@ -1,3 +1,4 @@
+import { ApiError } from "../utils/ApiError.js";
 import { asynHandler } from "../utils/asyncHandler.js";
 
 /*
@@ -5,8 +6,8 @@ import { asynHandler } from "../utils/asyncHandler.js";
     @route /api/v1/posts/:id
     @access Private
 */
-const getAllPosts = asynHandler(async (req, res) => {
-  throw new Error("test");
+const getAllPosts = asynHandler(async (req, res, next) => {
+  return next(ApiError("test", 400));
   res.json({ message: "ok" });
 });
 
