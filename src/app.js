@@ -11,7 +11,7 @@ import postRoutes from "./routes/post.route.js";
 app.use("/api/v1/posts", postRoutes);
 
 //error middleware
-import { errorHandlerMiddleware } from "./middlewares/error-middleware.js";
+import { errorHandlerMiddleware } from "./middlewares/customError.middleware.js";
 app.use(errorHandlerMiddleware);
 
 export { app };
