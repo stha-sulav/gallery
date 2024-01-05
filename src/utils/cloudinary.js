@@ -1,5 +1,8 @@
+import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -12,11 +15,12 @@ const uploadOnCloudinary = async (localFilePath) => {
     if (!localFilePath) return null;
 
     //upload files to cloudinary
-    const response = cloudinary.uploader.upload(localFilePath, {
+    const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
+      folder: "gallery",
     });
-    console.log(response);
-    return response;
+    fs.unlinkSync(localFilePath);
+    return { public_id: response.public_id, url: response.secure_url };
   } catch (error) {
     fs.unlinkSync(localFilePath);
     return null;

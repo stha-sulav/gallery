@@ -6,7 +6,7 @@ export const errorHandlerMiddleware = (err, req, res, next) => {
   if (err instanceof ApiErrorClass) {
     return res
       .status(err.statusCode)
-      .json(new ApiResponse(statusCode, message, []));
+      .json(new ApiResponse(statusCode, message));
   }
   return res
     .status(500)

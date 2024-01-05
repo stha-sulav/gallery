@@ -5,7 +5,7 @@ class ApiErrorClass extends Error {
   }
 }
 
-const ApiError = (msg, statusCode) => {
+const ApiError = (statusCode, msg) => {
   return new ApiErrorClass(msg, statusCode);
 };
 

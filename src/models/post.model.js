@@ -7,15 +7,11 @@ const postSchema = new Schema(
     },
     photos: [
       {
-        title: {
-          type: String,
-        },
         public_id: {
           type: String,
         },
         url: {
           type: String,
-          required: true,
         },
       },
     ],
