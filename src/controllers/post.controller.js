@@ -10,7 +10,10 @@ import { Post } from "../models/post.model.js";
     @access Private
 */
 const getAllPosts = asynHandler(async (req, res, next) => {
-  res.json({ message: ok });
+  const allPosts = await Post.find({});
+  res
+    .status(200)
+    .json(new ApiResponse(200, "All posts fetched successfully", allPosts));
 });
 
 /*
