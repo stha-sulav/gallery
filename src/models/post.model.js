@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 const postSchema = new Schema(
   {
@@ -18,5 +18,9 @@ const postSchema = new Schema(
   },
   { timestamps: true }
 );
+
+postSchema.statics.isIdValid = (id) => {
+  return Types.ObjectId.isValid(id);
+};
 
 export const Post = model("Post", postSchema);

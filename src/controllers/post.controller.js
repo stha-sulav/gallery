@@ -22,7 +22,21 @@ const getAllPosts = asynHandler(async (req, res, next) => {
     @access Private
 */
 const getPost = asynHandler(async (req, res, next) => {
-  res.json({ message: "ok" });
+  const { id } = req.params;
+
+  const isIdValid = Post.isIdValid(id);
+
+  if (!isIdValid) {
+    throw ApiError(400, "Invalid Id");
+  }
+
+  const post = await Post.findById(id);
+
+  if (!post) {
+    throw ApiError(404, "No such post found");
+  }
+
+  res.status(200).json(new ApiResponse(200, "Post found", post));
 });
 
 /*
