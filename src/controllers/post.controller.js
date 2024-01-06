@@ -74,7 +74,30 @@ const createPost = asynHandler(async (req, res) => {
     @access Private
 */
 const updatePost = asynHandler(async (req, res, next) => {
-  res.json({ message: "ok" });
+  const { caption } = req.body;
+  const { id } = req.params;
+
+  const isIdValid = Post.isIdValid(id);
+
+  if (!isIdValid) {
+    throw ApiError(400, "Invalid Id");
+  }
+
+  const post = await Post.findById(id);
+
+  if (!post) {
+    throw ApiError(404, "No such post found");
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    id,
+    {
+      caption: caption || "",
+    },
+    { new: true }
+  );
+
+  res.status(200).json(new ApiResponse(200, "Post Updated", updatedPost));
 });
 /*
     @desc Delete post
