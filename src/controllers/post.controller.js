@@ -1,6 +1,9 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asynHandler } from "../utils/asyncHandler.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  deleteFromCloudinary,
+  uploadOnCloudinary,
+} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Post } from "../models/post.model.js";
 
@@ -9,7 +12,7 @@ import { Post } from "../models/post.model.js";
     @route /api/v1/posts
     @access Private
 */
-const getAllPosts = asynHandler(async (req, res, next) => {
+const getAllPosts = asynHandler(async (req, res) => {
   const allPosts = await Post.find({});
   res
     .status(200)
@@ -21,7 +24,7 @@ const getAllPosts = asynHandler(async (req, res, next) => {
     @route /api/v1/posts/:id
     @access Private
 */
-const getPost = asynHandler(async (req, res, next) => {
+const getPost = asynHandler(async (req, res) => {
   const { id } = req.params;
 
   const isIdValid = Post.isIdValid(id);
@@ -73,7 +76,7 @@ const createPost = asynHandler(async (req, res) => {
     @route /api/v1/posts/:id
     @access Private
 */
-const updatePost = asynHandler(async (req, res, next) => {
+const updatePost = asynHandler(async (req, res) => {
   const { caption } = req.body;
   const { id } = req.params;
 
@@ -104,8 +107,31 @@ const updatePost = asynHandler(async (req, res, next) => {
     @route /api/v1/posts/:id
     @access Private
 */
-const deletePost = asynHandler(async (req, res, next) => {
-  res.json({ message: "ok" });
+const deletePost = asynHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const isIdValid = Post.isIdValid(id);
+
+  if (!isIdValid) {
+    throw ApiError(400, "Invalid Id");
+  }
+
+  const post = await Post.findById(id);
+
+  if (!post) {
+    throw ApiError(404, "No such post found");
+  }
+
+  post.photos.forEach(async (item) => {
+    console.log(item);
+    await deleteFromCloudinary(item.public_id);
+  });
+
+  const deletedPost = await Post.findByIdAndDelete(id);
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, "Successfuly deleted", deletedPost));
 });
 
 export { getAllPosts, getPost, createPost, updatePost, deletePost };
