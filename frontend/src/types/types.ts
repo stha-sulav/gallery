@@ -1,21 +1,21 @@
 export interface ApiResponseProps {
   data: ResponseDataProps[] | [];
-  message: String;
-  statusCode: Number;
-  success: Boolean;
+  message: string;
+  statusCode: number;
+  success: boolean;
 }
 
 export interface ResponseDataProps {
-  caption: String;
+  caption: string;
   photos: PhotoProps[];
-  _id: String;
-  createdAt: String;
-  updatedAt: String;
-  __v: Number;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export interface PhotoProps {
-  public_id: String;
-  url: String;
-  _id: String;
+  public_id: string;
+  url: string;
+  _id: string;
 }
