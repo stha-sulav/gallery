@@ -24,8 +24,8 @@ const ImageCarousel = ({ photos, setApi }: ImageCarouselProps) => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="carousel-btn" />
+      <CarouselNext className="carousel-btn" />
     </Carousel>
   );
 };
