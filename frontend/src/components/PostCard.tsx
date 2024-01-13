@@ -11,9 +11,17 @@ interface PostCardProps {
   date: string;
   _id: string;
   setApi: React.Dispatch<any>;
+  handleDelete: (id: string) => Promise<void>;
 }
 
-const PostCard = ({ _id, caption, photo, date, setApi }: PostCardProps) => {
+const PostCard = ({
+  _id,
+  caption,
+  photo,
+  date,
+  setApi,
+  handleDelete,
+}: PostCardProps) => {
   return (
     <Card key={_id} className="w-[350px] h-[450px] shadow-md">
       <CardContent className="h-3/5 p-0">
@@ -32,7 +40,7 @@ const PostCard = ({ _id, caption, photo, date, setApi }: PostCardProps) => {
           <Button>
             <Pencil />
           </Button>
-          <Button variant={"destructive"}>
+          <Button variant={"destructive"} onClick={() => handleDelete(_id)}>
             <Trash2 />
           </Button>
         </div>

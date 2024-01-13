@@ -9,6 +9,13 @@ const postReducer = (state: any, action: any) => {
       return {
         posts: action.payload,
       };
+
+    case "DELETE_POST":
+      return {
+        posts: state.posts.data.filter(
+          (item: ResponseDataProps) => item._id !== action.payload._id
+        ),
+      };
     default:
       return state;
   }
