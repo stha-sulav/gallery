@@ -3,7 +3,9 @@ import PostCard from "@/components/PostCard";
 import Container from "@/components/ui/container";
 import { usePostContext } from "@/hooks/usePostContext";
 import { useEffect, useState } from "react";
-import { ResponseDataProps } from "../types/types";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { posts, dispatch } = usePostContext();
@@ -21,8 +23,6 @@ const Home = () => {
 
     fetchData();
   }, [dispatch]);
-
-  // console.log(posts);
 
   useEffect(() => {
     if (!api) {
@@ -46,24 +46,28 @@ const Home = () => {
     dispatch({ type: "DELETE_POST", payload: data.data._id });
   };
 
+  console.log(posts);
+
   return (
     <div className="mt-4">
       <Container>
+        <div className="p-3">
+          <Link to="/create">
+            <Button>
+              <Plus />
+              Add Posts
+            </Button>
+          </Link>
+        </div>
         <div className="flex justify-center items-center gap-3">
           {posts?.data?.length === 0 ? (
             <h2 className="text-3xl font-medium">No Posts</h2>
           ) : (
-            posts?.data?.map((post: ResponseDataProps) => (
-              <PostCard
-                key={post?._id}
-                photo={post?.photos}
-                caption={post.caption}
-                _id={post._id}
-                date={post.updatedAt}
-                setApi={setApi}
-                handleDelete={handleDelete}
-              />
-            ))
+            <PostCard
+              posts={posts}
+              setApi={setApi}
+              handleDelete={handleDelete}
+            />
           )}
         </div>
       </Container>
