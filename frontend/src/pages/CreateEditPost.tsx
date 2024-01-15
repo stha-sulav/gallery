@@ -1,7 +1,7 @@
 import CreateEditForm from "@/components/CreateEditForm";
 import { usePostContext } from "@/hooks/usePostContext";
+import { PostFormProps } from "@/schema/postForm-schema";
 import { ResponseDataProps } from "@/types/types";
-import { SyntheticEvent } from "react";
 import { useParams } from "react-router-dom";
 
 const CreateEditPost = () => {
@@ -9,17 +9,7 @@ const CreateEditPost = () => {
   const { posts } = usePostContext();
 
   let currentPost =
-    id && posts?.data?.filter((post: ResponseDataProps) => post._id === id);
-
-  const createPost = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    console.log(posts);
-  };
-
-  const editPost = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    console.log(currentPost);
-  };
+    id && posts?.data?.filter((post: ResponseDataProps) => post._id === id)[0];
 
   return <CreateEditForm />;
 };
