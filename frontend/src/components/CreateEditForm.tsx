@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,13 +19,12 @@ const CreateEditForm = () => {
     resolver: zodResolver(PostFormSchema),
     defaultValues: {
       caption: "",
-      photos: [],
+      photos: "",
     },
   });
 
   const onSubmit = (data: any) => {
-    const values = PostFormSchema.safeParse(data);
-    console.log(data, values);
+    console.log(data);
   };
 
   return (
@@ -55,7 +53,7 @@ const CreateEditForm = () => {
             <FormItem className="flex items-center justify-between gap-8">
               <FormLabel className="text-lg font-medium">Photos</FormLabel>
               <FormControl>
-                <Input type="file" {...field} />
+                <Input type="file" {...field} multiple />
               </FormControl>
               <FormMessage />
             </FormItem>
